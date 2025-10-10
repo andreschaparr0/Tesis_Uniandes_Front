@@ -19,55 +19,34 @@ Acceder en: `http://localhost:3000`
 
 ---
 
-## Prueba 1: Dashboard
+## Prueba 1: Pagina de Inicio
 
 ### Objetivo
-Verificar que el Dashboard muestra las estadisticas correctamente.
+Verificar que la pagina de inicio carga correctamente.
 
 ### Pasos
 
 1. Abrir: `http://localhost:3000/`
-2. Abrir consola del navegador (F12)
-3. Buscar el mensaje: "Stats recibidas del backend:"
-4. Verificar que muestre el objeto con los datos
+2. Verificar que carga inmediatamente
 
 ### Resultados Esperados
 
-**Si HAY datos en la BD:**
-- Debe mostrar numeros correctos en las 4 tarjetas
-- Total CVs: numero > 0
-- Total Jobs: numero > 0
-- Total Analisis: numero > 0
-- Score Promedio: porcentaje
+- Titulo: "Sistema de Recomendacion de CVs"
+- Seccion "Acciones Rapidas" con 3 botones:
+  - Subir Nuevo CV
+  - Crear Nueva Oferta
+  - Realizar Analisis
+- Seccion "Navegacion" con 3 links:
+  - Ver CVs
+  - Ver Jobs
+  - Historial de Analisis
+- Seccion "Como Empezar" con 4 pasos
 
-**Si NO hay datos en la BD:**
-- Debe mostrar 0 en todas las tarjetas
-- No debe mostrar errores en consola
+### Verificacion
 
-### Debugging
-
-Si muestra 0 cuando deberia mostrar datos:
-
-1. Verificar endpoint directamente:
-```bash
-curl http://localhost:8000/stats
-```
-
-2. Ver respuesta esperada:
-```json
-{
-  "total_cvs": 5,
-  "total_jobs": 3,
-  "total_analyses": 10,
-  "score_promedio": 0.75,
-  "score_promedio_porcentaje": 75.0
-}
-```
-
-3. Si el curl funciona pero el Dashboard no:
-   - Verificar `.env` tiene `VITE_API_URL=http://localhost:8000`
-   - Reiniciar el frontend
-   - Limpiar cache del navegador
+- Todos los botones y links deben funcionar
+- No debe haber errores en consola
+- Carga debe ser instantanea (sin delays)
 
 ---
 
@@ -370,7 +349,7 @@ Verificar que toda la navegacion funciona correctamente.
 
 ### Rutas a Probar
 
-- `/` - Dashboard
+- `/` - Pagina de Inicio
 - `/cvs` - Lista de CVs
 - `/cvs/upload` - Subir CV
 - `/cvs/1` - Detalle de CV
@@ -421,7 +400,7 @@ Verificar que los errores se manejan correctamente.
 
 Antes de considerar el sistema completo, verificar:
 
-- [ ] Dashboard muestra estadisticas correctas
+- [ ] Pagina de inicio carga correctamente
 - [ ] Se pueden subir CVs (PDF)
 - [ ] Se pueden crear Jobs (texto)
 - [ ] Se pueden realizar analisis

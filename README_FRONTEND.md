@@ -82,10 +82,11 @@ src/
 
 ## Funcionalidades
 
-### Dashboard
-- Vista general con estadisticas
+### Pagina de Inicio
+- Bienvenida al sistema
 - Accesos rapidos a las funcionalidades principales
 - Navegacion intuitiva
+- Guia "Como Empezar" para nuevos usuarios
 
 ### Gestion de CVs
 - Listar todos los CVs procesados
@@ -158,15 +159,6 @@ El sistema permite configurar pesos personalizados para el analisis:
 Los pesos se normalizan automaticamente si no suman 1.0.
 
 ## Troubleshooting
-
-### Dashboard muestra 0 en todas las estadisticas
-Ver `TROUBLESHOOTING_DASHBOARD.md` para guia completa de debugging.
-
-**Verificacion rapida:**
-1. Backend corriendo: `http://localhost:8000/health`
-2. Endpoint stats: `http://localhost:8000/stats`
-3. Consola del navegador (F12) para ver errores
-4. Verificar que haya datos en la BD (al menos 1 CV y 1 Job)
 
 ### El frontend no conecta con el backend
 - Verificar que el backend este ejecutandose en `http://localhost:8000`

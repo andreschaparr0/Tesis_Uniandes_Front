@@ -4,7 +4,7 @@ const Layout = ({ children }) => {
   const location = useLocation()
 
   const navigation = [
-    { name: 'Dashboard', path: '/' },
+    { name: 'Inicio', path: '/' },
     { name: 'CVs', path: '/cvs' },
     { name: 'Jobs', path: '/jobs' },
     { name: 'Analisis', path: '/analysis' },

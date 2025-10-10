@@ -2,26 +2,19 @@
 
 ## Problemas Corregidos
 
-### 1. Dashboard mostrando 0 cuando hay datos
-**Problema:** El Dashboard mostraba 0 CVs y 0 Jobs incluso cuando habia datos en la base de datos.
+### 1. Dashboard Simplificado
+**Problema:** El Dashboard con estadisticas tenia problemas de conectividad con el endpoint `/stats`.
 
 **Solucion:**
-- Se inicializo el estado `stats` con valores por defecto (0) en lugar de `null`
-- Se mejoro el manejo de errores para siempre mostrar valores numericos
-- Se usa el operador nullish coalescing (`??`) para garantizar valores numericos
-- Se agregaron `console.log` detallados para debug:
-  - Muestra las estadisticas recibidas del backend
-  - Muestra detalles completos de errores si ocurren
-- Manejo robusto de respuestas `undefined` o `null`
+- Se elimino la dependencia del endpoint `/stats`
+- Se creo una pagina de inicio simple sin llamadas al backend
+- Incluye acciones rapidas y navegacion
+- Guia "Como Empezar" para nuevos usuarios
+- Carga instantanea, sin delays
 
 **Archivo modificado:** `src/pages/Dashboard.jsx`
 
-**Debugging:**
-Si el Dashboard sigue mostrando 0:
-1. Abrir consola del navegador (F12)
-2. Buscar el mensaje: "Stats recibidas del backend:"
-3. Verificar que el backend retorne los datos correctos
-4. Ver `TROUBLESHOOTING_DASHBOARD.md` para guia completa
+**Nota:** Ver `NOTA_DASHBOARD.md` para detalles del cambio y como restaurar estadisticas si se necesita en el futuro.
 
 ### 2. Opciones de Eliminar
 

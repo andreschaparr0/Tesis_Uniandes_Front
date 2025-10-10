@@ -2,16 +2,16 @@
 
 ## Cambios Implementados
 
-### 1. Dashboard Mejorado
+### 1. Pagina de Inicio Simplificada
 
 **Problema Corregido:**
-El Dashboard mostraba 0 en todas las estadisticas incluso cuando habia datos.
+El Dashboard con estadisticas tenia problemas de conectividad.
 
 **Solucion:**
-- Uso de operador nullish coalescing (`??`) para valores seguros
-- Console logs detallados para debugging
-- Manejo robusto de errores con mensajes especificos
-- Inicializacion correcta del estado
+- Pagina de inicio sin dependencias del backend
+- Acciones rapidas y navegacion directa
+- Guia "Como Empezar" para nuevos usuarios
+- Carga instantanea sin delays
 
 **Archivo:** `src/pages/Dashboard.jsx`
 
@@ -72,14 +72,11 @@ El Dashboard mostraba 0 en todas las estadisticas incluso cuando habia datos.
 - [x] Eliminar analisis (detalle)
 - [x] Ver top candidatos por job
 
-### Dashboard
-- [x] Estadisticas generales
-- [x] Total CVs
-- [x] Total Jobs
-- [x] Total Analisis
-- [x] Score promedio
+### Pagina de Inicio
+- [x] Bienvenida al sistema
 - [x] Accesos rapidos
-- [x] Navegacion
+- [x] Navegacion directa
+- [x] Guia "Como Empezar"
 
 ## Endpoints API Utilizados
 
