@@ -342,7 +342,97 @@ Verificar que se muestra el ranking de candidatos por job.
 
 ---
 
-## Prueba 14: Navegacion entre Paginas
+## Prueba 14: Grafica de Dispersion de Candidatos
+
+### Objetivo
+Verificar que la grafica de dispersion se muestra correctamente y ayuda a identificar candidatos.
+
+### Pre-requisitos
+- Al menos 1 Job creado
+- Al menos 3-5 CVs analizados para ese Job (para visualizar bien la grafica)
+
+### Pasos
+
+1. Ir a la lista de Jobs
+2. Click en un Job que tenga multiples analisis
+3. Click en la pestana "Top Candidatos"
+4. Observar la grafica de dispersion arriba de la lista
+
+### Resultados Esperados
+
+**Grafica de Dispersion:**
+- Se muestra un grafico con:
+  - Eje X: "Porcentaje de Criterios Evaluados (%)"
+  - Eje Y: "Score Obtenido (%)"
+  - Puntos de colores (verde, amarillo, azul, rojo)
+  - Lineas de referencia punteadas en 70%
+
+**Cuadro Informativo:**
+- Arriba de la grafica hay una explicacion azul con:
+  - Como interpretar los ejes
+  - Leyenda de colores:
+    - Verde: Candidatos ideales (alto score + muchos criterios)
+    - Amarillo: Advertencia (alto score pero pocos criterios)
+    - Azul: Candidatos medios
+    - Rojo: Bajo match
+
+**Tooltip Interactivo:**
+- Al pasar mouse sobre un punto:
+  - Muestra nombre del candidato
+  - Score obtenido
+  - Criterios usados (X/Total y %)
+
+**Interpretacion:**
+- Puntos en zona verde (arriba-derecha): Mejores candidatos
+- Puntos en zona amarilla (arriba-izquierda): Scores posiblemente enganosos
+- Puntos distribuidos coherentemente segun sus scores y completitud
+
+### Casos de Prueba Especificos
+
+**Caso 1: Candidato con alto score pero pocos criterios**
+- Si un candidato tiene 90% de score pero solo 30% de criterios evaluados
+- Debe aparecer en zona amarilla (advertencia)
+- Esto indica que el score puede ser enganoso
+
+**Caso 2: Candidato con buen score y muchos criterios**
+- Si un candidato tiene 75% de score y 100% de criterios evaluados
+- Debe aparecer en zona verde o azul (segun el score)
+- Estos son candidatos con informacion completa
+
+**Caso 3: Comparacion visual**
+- Deberia ser facil identificar visualmente:
+  - Quien tiene mejor balance entre score y completitud
+  - Quien tiene score alto pero poca informacion
+  - Quien tiene informacion completa
+
+### Que Hacer si Falla
+
+**No se muestra la grafica:**
+- Verificar que haya al menos 1 analisis para el job
+- Abrir consola del navegador (F12) y buscar errores
+- Verificar que el endpoint `/jobs/{id}/analyses` funcione:
+  ```bash
+  curl http://localhost:8000/jobs/1/analyses
+  ```
+
+**Colores incorrectos:**
+- Verificar que el `score_breakdown` exista en los analisis
+- Ver consola del navegador para errores de calculo
+- Verificar que los criterios se calculen correctamente
+
+**Tooltip no aparece:**
+- Verificar que Recharts este instalado: `npm list recharts`
+- Probar en otro navegador
+- Verificar consola para errores de React
+
+**Puntos no se muestran:**
+- Verificar que `allAnalyses` tenga datos
+- Ver en consola: `console.log(allAnalyses)`
+- Verificar que cada analisis tenga `resultado_completo.final_score_data.score_breakdown`
+
+---
+
+## Prueba 15: Navegacion entre Paginas
 
 ### Objetivo
 Verificar que toda la navegacion funciona correctamente.
@@ -405,7 +495,8 @@ Antes de considerar el sistema completo, verificar:
 - [ ] Se pueden crear Jobs (texto)
 - [ ] Se pueden realizar analisis
 - [ ] Pesos personalizados funcionan
-- [ ] Graficos se muestran correctamente
+- [ ] Graficos se muestran correctamente (radar y dispersion)
+- [ ] Grafica de dispersion muestra candidatos con colores correctos
 - [ ] Se pueden eliminar CVs
 - [ ] Se pueden eliminar Jobs
 - [ ] Se pueden eliminar Analisis (historial)

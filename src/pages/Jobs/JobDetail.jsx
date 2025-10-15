@@ -1,16 +1,19 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { jobService } from '../../services/jobService'
+import { analysisService } from '../../services/analysisService'
 import Card from '../../components/common/Card'
 import Button from '../../components/common/Button'
 import Loading from '../../components/common/Loading'
 import Alert from '../../components/common/Alert'
+import CandidatesScatterChart from '../../components/Analysis/CandidatesScatterChart'
 
 const JobDetail = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const [job, setJob] = useState(null)
   const [topCandidates, setTopCandidates] = useState([])
+  const [allAnalyses, setAllAnalyses] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [activeTab, setActiveTab] = useState('info')
@@ -18,6 +21,7 @@ const JobDetail = () => {
   useEffect(() => {
     loadJob()
     loadTopCandidates()
+    loadAllAnalyses()
   }, [id])
 
   const loadJob = async () => {
@@ -38,6 +42,30 @@ const JobDetail = () => {
       setTopCandidates(data)
     } catch (err) {
       console.error('Error loading candidates:', err)
+    }
+  }
+
+  const loadAllAnalyses = async () => {
+    try {
+      // Primero obtenemos la lista básica de análisis
+      const basicAnalyses = await jobService.getJobAnalyses(id)
+      
+      // Luego obtenemos el detalle completo de cada análisis (incluyendo score_breakdown)
+      const detailedAnalyses = await Promise.all(
+        basicAnalyses.map(async (analysis) => {
+          try {
+            const detail = await analysisService.getAnalysisById(analysis.id)
+            return detail
+          } catch (err) {
+            console.error(`Error loading analysis ${analysis.id}:`, err)
+            return analysis // Fallback a datos básicos
+          }
+        })
+      )
+      
+      setAllAnalyses(detailedAnalyses)
+    } catch (err) {
+      console.error('Error loading analyses:', err)
     }
   }
 
@@ -261,42 +289,53 @@ const JobDetail = () => {
         )}
 
         {activeTab === 'candidates' && (
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Top Candidatos</h3>
-            {topCandidates.length > 0 ? (
-              <div className="space-y-3">
-                {topCandidates.map((candidate) => (
-                  <Link
-                    key={candidate.analysis_id}
-                    to={`/analysis/${candidate.analysis_id}`}
-                    className="block p-4 border rounded-lg hover:bg-gray-50 transition"
-                  >
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <div className="flex items-center gap-3">
-                          <span className="text-2xl font-bold text-gray-400">
-                            #{candidate.rank}
-                          </span>
-                          <div>
-                            <h4 className="font-medium text-gray-900">{candidate.candidato}</h4>
-                            <p className="text-sm text-gray-500">
-                              {new Date(candidate.created_at).toLocaleDateString()}
-                            </p>
+          <div className="space-y-8">
+            {/* Grafica de Dispersion */}
+            {allAnalyses.length > 0 && (
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Visualizacion de Candidatos</h3>
+                <CandidatesScatterChart analyses={allAnalyses} />
+              </div>
+            )}
+
+            {/* Lista de Top Candidatos */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Top Candidatos</h3>
+              {topCandidates.length > 0 ? (
+                <div className="space-y-3">
+                  {topCandidates.map((candidate) => (
+                    <Link
+                      key={candidate.analysis_id}
+                      to={`/analysis/${candidate.analysis_id}`}
+                      className="block p-4 border rounded-lg hover:bg-gray-50 transition"
+                    >
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <div className="flex items-center gap-3">
+                            <span className="text-2xl font-bold text-gray-400">
+                              #{candidate.rank}
+                            </span>
+                            <div>
+                              <h4 className="font-medium text-gray-900">{candidate.candidato}</h4>
+                              <p className="text-sm text-gray-500">
+                                {new Date(candidate.created_at).toLocaleDateString()}
+                              </p>
+                            </div>
                           </div>
                         </div>
+                        <div className="text-right">
+                          <p className="text-2xl font-bold text-primary-600">
+                            {candidate.score_porcentaje}%
+                          </p>
+                        </div>
                       </div>
-                      <div className="text-right">
-                        <p className="text-2xl font-bold text-primary-600">
-                          {candidate.score_porcentaje}%
-                        </p>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            ) : (
-              <p className="text-gray-500">No hay candidatos analizados para este job</p>
-            )}
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-500">No hay candidatos analizados para este job</p>
+              )}
+            </div>
           </div>
         )}
       </Card>

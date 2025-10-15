@@ -103,6 +103,7 @@ src/
 - Ver detalle completo del job estructurado
 - Eliminar jobs
 - Ver top candidatos por job
+- Grafica de dispersion: visualiza score vs % de criterios evaluados
 
 ### Analisis
 - Seleccionar CV y Job para analizar

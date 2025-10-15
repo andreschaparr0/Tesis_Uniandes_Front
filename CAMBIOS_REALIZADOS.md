@@ -1,5 +1,33 @@
 # Cambios Realizados en el Frontend
 
+## Nuevas Funcionalidades
+
+### Grafica de Dispersion de Candidatos
+
+**Proposito:** Visualizar la calidad y completitud de los analisis para evitar interpretaciones enganosas de los scores.
+
+**Ubicacion:** Pagina de detalle de Job, pestana "Top Candidatos"
+
+**Como Funciona:**
+- **Eje X:** Porcentaje de criterios evaluados (no ignorados)
+- **Eje Y:** Score obtenido en porcentaje
+- **Cada punto:** Un candidato analizado
+
+**Colores:**
+- Verde: Candidatos ideales (alto score + muchos criterios)
+- Amarillo: Advertencia (alto score pero pocos criterios - posiblemente enganoso)
+- Azul: Candidatos medios
+- Rojo: Bajo match
+
+**Archivos:**
+- `src/components/Analysis/CandidatesScatterChart.jsx` (nuevo componente)
+- `src/pages/Jobs/JobDetail.jsx` (modificado para incluir grafica)
+- `GRAFICA_DISPERSION.md` (documentacion completa)
+
+**Beneficio:** Evita que un candidato con score alto pero poca informacion parezca mejor que uno con score bueno e informacion completa.
+
+---
+
 ## Problemas Corregidos
 
 ### 1. Dashboard Simplificado

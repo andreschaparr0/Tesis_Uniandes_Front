@@ -1,6 +1,33 @@
-# Resumen de Actualizacion - Version 2.0
+# Resumen de Actualizacion - Version 2.1
 
 ## Cambios Implementados
+
+### NUEVO: Grafica de Dispersion de Candidatos
+
+**Problema que Resuelve:**
+Los scores altos pueden ser enganosos cuando se basan en pocos criterios evaluados.
+
+**Solucion:**
+Grafica de dispersion que muestra:
+- Eje X: % de criterios evaluados
+- Eje Y: Score obtenido
+- Colores automaticos segun zona (verde=ideal, amarillo=advertencia, azul=medio, rojo=bajo)
+
+**Beneficios:**
+- Identifica candidatos con scores altos pero poca informacion
+- Permite comparaciones justas entre candidatos
+- Visualizacion intuitiva de calidad y completitud
+
+**Ubicacion:** Detalle de Job > Pestana Top Candidatos
+
+**Archivos:**
+- `src/components/Analysis/CandidatesScatterChart.jsx` (nuevo)
+- `src/pages/Jobs/JobDetail.jsx` (modificado)
+- `GRAFICA_DISPERSION.md` (documentacion)
+
+---
+
+## Cambios Implementados (Version 2.0)
 
 ### 1. Pagina de Inicio Simplificada
 
