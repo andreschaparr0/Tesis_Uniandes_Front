@@ -124,6 +124,15 @@ const AnalysisDetail = () => {
         </Card>
       </div>
 
+      {analysis.resultado_completo?.final_score_data?.summary && (
+        <Card className="mb-6 border-l-4 border-primary-600">
+          <h3 className="text-lg font-semibold mb-3 text-gray-900">Resumen del Analisis</h3>
+          <p className="text-gray-700 leading-relaxed">
+            {analysis.resultado_completo.final_score_data.summary}
+          </p>
+        </Card>
+      )}
+
       <Card title="Desglose del Score" className="mb-6">
         <ScoreBreakdownChart breakdown={analysis.score_breakdown} />
       </Card>

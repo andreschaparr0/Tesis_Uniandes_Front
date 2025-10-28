@@ -92,6 +92,11 @@ const AnalysisHistory = () => {
                           <p className="text-sm text-gray-600">
                             {analysis.trabajo}
                           </p>
+                          {analysis.resultado_completo?.final_score_data?.summary && (
+                            <p className="text-sm text-gray-700 mt-2 italic">
+                              {analysis.resultado_completo.final_score_data.summary}
+                            </p>
+                          )}
                           <p className="text-xs text-gray-500 mt-1">
                             {new Date(analysis.created_at).toLocaleString()}
                           </p>

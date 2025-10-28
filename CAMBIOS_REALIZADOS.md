@@ -1,6 +1,34 @@
 # Cambios Realizados en el Frontend
 
-## Nuevas Funcionalidades
+## Nuevas Funcionalidades (Versión 2.2)
+
+### Campo Summary en Análisis
+
+**Propósito:** Proporcionar un resumen automático generado por IA que describe la idoneidad del candidato.
+
+**Ubicación:** 
+- Página de detalle de análisis - Card destacada con el resumen
+- Historial de análisis - Resumen en cada card para contexto rápido
+
+**Cómo Funciona:**
+- El backend genera un summary con Azure OpenAI
+- El frontend muestra el summary en formato destacado
+- Compatible con análisis antiguos (no muestra nada si no existe)
+
+**Beneficios:**
+- Vista rápida de la idoneidad del candidato
+- Identifica fortalezas y debilidades inmediatamente
+- Mejora la experiencia al revisar el historial
+- Decisiones más rápidas basadas en IA
+
+**Archivos:**
+- `src/pages/Analysis/AnalysisDetail.jsx` (modificado)
+- `src/pages/Analysis/AnalysisHistory.jsx` (modificado)
+- `CAMBIO_SUMMARY.md` (documentación completa)
+
+---
+
+## Nuevas Funcionalidades (Versión 2.1)
 
 ### Grafica de Dispersion de Candidatos
 

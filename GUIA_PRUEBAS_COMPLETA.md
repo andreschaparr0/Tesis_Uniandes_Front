@@ -121,6 +121,7 @@ Analizar un CV vs Job usando pesos predeterminados.
 
 - Redirige a la pagina de detalle del analisis
 - Muestra score grande y destacado (ej: 82%)
+- Muestra resumen del analisis generado por IA (card destacada con borde azul)
 - Muestra grafico radial con 8 aspectos
 - Muestra tabla detallada con scores individuales
 - Muestra razones de cada comparador
@@ -128,6 +129,7 @@ Analizar un CV vs Job usando pesos predeterminados.
 ### Verificacion
 
 - Score debe estar entre 0-100%
+- Resumen debe ser claro y descriptivo (ej: "Candidato muy adecuado. Destaca en...")
 - Todos los aspectos deben tener score, peso y contribucion
 - Razones deben ser explicativas (no "Error en respuesta de IA")
 
@@ -179,6 +181,7 @@ Verificar que el historial muestra todos los analisis.
   - Score grande con color segun porcentaje
   - Nombre del candidato
   - Nombre del trabajo
+  - Resumen del analisis en cursiva (si existe)
   - Fecha y hora
   - Boton "Eliminar"
 - Ordenado por fecha (mas reciente primero)
@@ -342,7 +345,119 @@ Verificar que se muestra el ranking de candidatos por job.
 
 ---
 
-## Prueba 14: Grafica de Dispersion de Candidatos
+## Prueba 14: Campo Summary en Análisis
+
+### Objetivo
+Verificar que el resumen automático generado por IA se muestra correctamente en el análisis.
+
+### Pre-requisitos
+- Al menos 1 CV subido
+- Al menos 1 Job creado
+- Backend actualizado con el campo summary
+
+### Pasos
+
+1. Realizar un nuevo análisis desde `/analysis`
+2. Seleccionar CV y Job
+3. Click en "Realizar Análisis"
+4. Esperar a que termine el procesamiento
+5. Verificar el detalle del análisis
+
+### Resultados Esperados
+
+**En AnalysisDetail:**
+- Después de las cards de información, debe aparecer una card destacada
+- Título: "Resumen del Análisis"
+- Borde izquierdo azul para destacar
+- Texto del resumen claro y descriptivo
+
+**Ejemplo de Summary:**
+> "Candidato muy adecuado. Destaca en Experiencia y Habilidades Técnicas. Requiere mejorar en Certificaciones."
+
+**En AnalysisHistory:**
+1. Ir a `/analysis/history`
+2. Ver la lista de análisis
+3. Cada card debe mostrar el resumen en cursiva
+4. El resumen debe estar entre el título del trabajo y la fecha
+
+### Casos de Prueba
+
+**Caso 1: Score Alto (> 80%)**
+- El summary debe indicar que es un candidato excelente/muy adecuado
+- Debe mencionar las fortalezas principales
+- Puede sugerir avanzar en el proceso de selección
+
+**Caso 2: Score Medio (60-80%)**
+- El summary debe indicar que es un candidato adecuado/bueno
+- Debe mencionar fortalezas
+- Debe mencionar áreas que podrían requerir mejora
+
+**Caso 3: Score Bajo (< 60%)**
+- El summary debe indicar que el candidato tiene deficiencias
+- Debe especificar las áreas problemáticas
+- Puede indicar que no cumple requisitos principales
+
+**Caso 4: Análisis Antiguo (sin summary)**
+- Abrir un análisis realizado antes de este cambio
+- Verificar que NO se muestra la sección de summary
+- Confirmar que no hay errores en consola
+- El resto del análisis debe mostrarse normalmente
+
+### Verificación de Calidad del Summary
+
+El summary debe cumplir con:
+- ✓ Ser claro y fácil de entender
+- ✓ Mencionar el nivel de idoneidad del candidato
+- ✓ Destacar 2-3 fortalezas principales
+- ✓ Mencionar 1-2 áreas de mejora (si aplica)
+- ✓ Ser conciso (2-3 oraciones máximo)
+- ✓ Estar en español (o el idioma configurado)
+
+### Qué Hacer si Falla
+
+**No se muestra el summary:**
+1. Verificar que el backend esté actualizado
+2. Abrir DevTools (F12) → Network
+3. Buscar la petición POST `/analyze/{cv_id}/{job_id}`
+4. Verificar que la respuesta incluye el campo `summary`
+5. Si el backend no retorna `summary`, es un problema del backend
+
+**Summary vacío o "null":**
+- Problema de Azure OpenAI en el backend
+- Verificar logs del backend
+- Intentar con otro CV/Job
+
+**Errores en consola:**
+```
+Cannot read property 'summary' of undefined
+```
+- Verificar que se esté usando optional chaining (`?.`)
+- Revisar la estructura de datos en `AnalysisDetail.jsx`
+
+**Summary con formato extraño:**
+- El backend puede estar retornando datos inesperados
+- Verificar en Network tab el formato exacto
+- Contactar al equipo de backend
+
+### Testing Responsive
+
+1. **Desktop (> 1024px):**
+   - Summary debe mostrarse en una card ancha
+   - Texto debe ser fácil de leer
+   - Borde azul debe ser visible
+
+2. **Tablet (768px - 1024px):**
+   - Summary debe ajustarse al ancho
+   - Debe mantener legibilidad
+
+3. **Móvil (< 768px):**
+   - Summary debe ocupar todo el ancho
+   - Texto debe adaptarse sin scroll horizontal
+   - Debe estar arriba del gráfico para visibilidad inmediata
+
+---
+
+## Prueba 15: Grafica de Dispersion de Candidatos
 
 ### Objetivo
 Verificar que la grafica de dispersion se muestra correctamente y ayuda a identificar candidatos.
@@ -432,7 +547,7 @@ Verificar que la grafica de dispersion se muestra correctamente y ayuda a identi
 
 ---
 
-## Prueba 15: Navegacion entre Paginas
+## Prueba 16: Navegacion entre Paginas
 
 ### Objetivo
 Verificar que toda la navegacion funciona correctamente.
@@ -458,7 +573,7 @@ Verificar que toda la navegacion funciona correctamente.
 
 ---
 
-## Prueba 15: Manejo de Errores
+## Prueba 17: Manejo de Errores
 
 ### Objetivo
 Verificar que los errores se manejan correctamente.
@@ -495,6 +610,8 @@ Antes de considerar el sistema completo, verificar:
 - [ ] Se pueden crear Jobs (texto)
 - [ ] Se pueden realizar analisis
 - [ ] Pesos personalizados funcionan
+- [ ] Campo summary se muestra en detalle de analisis
+- [ ] Campo summary se muestra en historial de analisis
 - [ ] Graficos se muestran correctamente (radar y dispersion)
 - [ ] Grafica de dispersion muestra candidatos con colores correctos
 - [ ] Se pueden eliminar CVs

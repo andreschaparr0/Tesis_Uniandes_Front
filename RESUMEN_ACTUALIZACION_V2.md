@@ -1,6 +1,41 @@
-# Resumen de Actualizacion - Version 2.1
+# Resumen de Actualizacion - Version 2.2
 
-## Cambios Implementados
+## Cambios Implementados (Version 2.2)
+
+### NUEVO: Campo Summary en Análisis
+
+**Fecha:** Octubre 2025
+
+**Problema que Resuelve:**
+Los usuarios necesitan una vista rápida de la evaluación sin tener que revisar todos los detalles del análisis.
+
+**Solución:**
+Campo `summary` generado automáticamente por IA que resume la idoneidad del candidato.
+
+**Características:**
+- Resumen claro y conciso generado por Azure OpenAI
+- Se muestra en la página de detalle del análisis (card destacada)
+- Se muestra en el historial de análisis (para contexto rápido)
+- Compatible con análisis antiguos (no muestra nada si no existe)
+
+**Beneficios:**
+- Vista rápida de la idoneidad del candidato
+- Identifica fortalezas y debilidades inmediatamente
+- Mejora la experiencia al revisar el historial
+- Decisiones más rápidas basadas en IA
+
+**Ubicación:** 
+- Detalle de Análisis: Card destacada con borde azul
+- Historial: Texto en cursiva entre el título del trabajo y la fecha
+
+**Archivos:**
+- `src/pages/Analysis/AnalysisDetail.jsx` (modificado)
+- `src/pages/Analysis/AnalysisHistory.jsx` (modificado)
+- `CAMBIO_SUMMARY.md` (documentación completa)
+
+---
+
+## Cambios Implementados (Version 2.1)
 
 ### NUEVO: Grafica de Dispersion de Candidatos
 
@@ -313,7 +348,23 @@ Funcionalidades que se pueden agregar:
 
 ---
 
-**Version:** 2.0.0  
-**Fecha:** 2024  
+**Version:** 2.2.0  
+**Fecha:** Octubre 2025  
 **Estado:** Produccion - Todas las funcionalidades implementadas y probadas
+
+## Historial de Versiones
+
+### Version 2.2.0 (Octubre 2025)
+- ✅ Campo `summary` en análisis
+- ✅ Resumen automático generado por IA
+- ✅ Visualización en detalle y historial
+
+### Version 2.1.0 (2024)
+- ✅ Gráfica de dispersión de candidatos
+- ✅ Identificación de scores engañosos
+
+### Version 2.0.0 (2024)
+- ✅ Dashboard simplificado
+- ✅ Eliminación de análisis
+- ✅ Sistema completo funcional
 

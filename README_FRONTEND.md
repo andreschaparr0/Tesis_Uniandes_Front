@@ -109,6 +109,7 @@ src/
 - Seleccionar CV y Job para analizar
 - Configurar pesos personalizados (opcional)
 - Ver resultados con score final
+- Resumen automatico del analisis generado por IA
 - Grafico radial con breakdown por categoria
 - Detalles y razones de cada comparador
 - Historial completo de analisis
